@@ -3,7 +3,9 @@
  *
  */
 import java.lang.IllegalStateException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -12,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Calendar;
 import java.util.Vector;
+import java.util.Properties;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -177,6 +180,19 @@ public class Stream {
     
     public Stream()
     {
+        Properties prop = new Properties();
+        String propFileName = "config.properties";
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+        try {
+            prop.load(inputStream);
+        }
+        catch (Exception e){
+            System.out.println("Configuration File Does Not Exists");
+        }
+        if (inputStream == null) {
+            System.out.println("Cannot Read Configuration File");
+        }
+
         ConfigurationBuilder cb = new ConfigurationBuilder();
         cb.setJSONStoreEnabled(true);
         Configuration config = cb.build();
@@ -212,16 +228,33 @@ public class Stream {
 
         twitterStream.addListener(listener);
 
-        FilterQuery locationFilter = new FilterQuery();
-        double [][] us = {
-                {-125.72,25.4209},{-65.3962,49.6892}, // continental us
-                {-170.0445, 52.6292},{-136.9694, 71.8265} // alaska
-                };
-        locationFilter.locations(us);
-        System.out.println(locationFilter.toString());
+        String type = prop.getProperty("type");
+        switch (type) {
+            case "filter":
+                FilterQuery filter = new FilterQuery();
+                filter.track(prop.getProperty("keywords").split(","));
+                break;
+            case "geofilter":
+                // not yet implemented
+                break;
+            case "sample":
+                storage.start();
+                twitterStream.sample();
+                break;
+            default:
+                break;
+        }
+
+        // FilterQuery locationFilter = new FilterQuery();
+        // double [][] us = {
+        //         {-125.72,25.4209},{-65.3962,49.6892}, // continental us
+        //         {-170.0445, 52.6292},{-136.9694, 71.8265} // alaska
+        //         };
+        // locationFilter.locations(us);
+        // System.out.println(locationFilter.toString());
         
-        storage.start();
-        twitterStream.filter(locationFilter);
+        // storage.start();
+        // twitterStream.filter(locationFilter);
     }
     
     public static void main(String[] args) throws TwitterException, IOException{
