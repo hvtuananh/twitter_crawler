@@ -226,10 +226,8 @@ public class Stream {
         twitterStream.addListener(listener);
 
         String type = prop.getProperty("type");
-        System.out.println(type);
         switch (type) {
             case "filter":
-                System.out.println("XXX");
                 FilterQuery filter = new FilterQuery();
                 filter.track(prop.getProperty("keywords").split(","));
                 storage.start();
