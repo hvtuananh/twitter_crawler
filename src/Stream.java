@@ -5,7 +5,7 @@
 import java.lang.IllegalStateException;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
+import java.io.FileInputStream;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -182,14 +182,11 @@ public class Stream {
     {
         Properties prop = new Properties();
         String propFileName = "config.properties";
-        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
         try {
+            FileInputStream inputStream = new FileInputStream(propFileName);
             prop.load(inputStream);
         }
         catch (Exception e){
-            System.out.println("Configuration File Does Not Exists");
-        }
-        if (inputStream == null) {
             System.out.println("Cannot Read Configuration File");
         }
 
@@ -229,10 +226,14 @@ public class Stream {
         twitterStream.addListener(listener);
 
         String type = prop.getProperty("type");
+        System.out.println(type);
         switch (type) {
             case "filter":
+                System.out.println("XXX");
                 FilterQuery filter = new FilterQuery();
                 filter.track(prop.getProperty("keywords").split(","));
+                storage.start();
+                twitterStream.filter(filter);
                 break;
             case "geofilter":
                 // not yet implemented

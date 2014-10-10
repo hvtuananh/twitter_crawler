@@ -14,4 +14,6 @@ all:
 
 run:
 	nohup java -classpath $(LIBS3):src/. Stream > /dev/null
-	
+
+debug:
+	nohup java -classpath $(LIBS3):src/. Stream
