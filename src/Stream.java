@@ -35,7 +35,6 @@ class StringsToProcess {
 
     private Vector<String> list;
 
-    
     public StringsToProcess()
     {
         list = new Vector<String>();
@@ -190,14 +189,9 @@ public class Stream {
             public void onStatus(Status status) {
                 // status.
                 try {
-                    GeoLocation geo = status.getGeoLocation();
-                    if (geo != null)
-                    {
-                    // System.out.print(status.getGeoLocation());
-                        String rawJSON = DataObjectFactory.getRawJSON(status);
-                        System.out.println(rawJSON);
-                        storage.store(rawJSON);
-                    }
+                    String rawJSON = DataObjectFactory.getRawJSON(status);
+                    System.out.println(rawJSON);
+                    storage.store(rawJSON);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
