@@ -12,8 +12,8 @@ all:
 	find src | egrep "[.]java$$" > file.list
 	javac -classpath $(LIBS3):. @file.list
 
-run:
+run: all
 	nohup java -classpath $(LIBS3):src/. Stream > /dev/null
 
-debug:
-	nohup java -classpath $(LIBS3):src/. Stream
+debug: all
+	java -classpath $(LIBS3):src/. Stream
