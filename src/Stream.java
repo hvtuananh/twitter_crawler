@@ -249,6 +249,7 @@ public class Stream {
                 twitterStream.filter(filter);
                 break;
             case "geofilter":
+                System.out.println("LOL");
                 filter.track(prop.getProperty("keywords").split(","));
                 filter.locations(parseGeo(prop.getProperty("geo")));
                 storage.start();
