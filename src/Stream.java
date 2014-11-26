@@ -233,6 +233,9 @@ public class Stream {
                 storage.start();
                 twitterStream.filter(filter);
                 break;
+            case "geo":
+                // not yet implemented
+                break;
             case "geofilter":
                 // not yet implemented
                 break;
