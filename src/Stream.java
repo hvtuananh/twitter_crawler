@@ -177,6 +177,16 @@ class Storage extends Thread {
 public class Stream {
 
     Storage storage;
+
+    private double[][] parseGeo(String text)
+    {
+        String[] geo = text.split(",");
+        double[][] results = new double[geo.length/2][2];
+        for (int i=0; i<geo.length; i++){
+            results[i/2][i%2] = Double.parseDouble(geo[i]);
+        }
+        return results;
+    }
     
     public Stream()
     {
@@ -226,18 +236,23 @@ public class Stream {
         twitterStream.addListener(listener);
 
         String type = prop.getProperty("type");
+        FilterQuery filter = new FilterQuery();
         switch (type) {
             case "filter":
-                FilterQuery filter = new FilterQuery();
                 filter.track(prop.getProperty("keywords").split(","));
                 storage.start();
                 twitterStream.filter(filter);
                 break;
             case "geo":
-                // not yet implemented
+                filter.locations(parseGeo(prop.getProperty("geo")));
+                storage.start();
+                twitterStream.filter(filter);
                 break;
             case "geofilter":
-                // not yet implemented
+                filter.track(prop.getProperty("keywords").split(","));
+                filter.locations(parseGeo(prop.getProperty("geo")));
+                storage.start();
+                twitterStream.filter(filter);
                 break;
             case "sample":
                 storage.start();
