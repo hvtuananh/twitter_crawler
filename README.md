@@ -2,12 +2,15 @@ Twitter Crawler
 ===============
 
 Author: Tuan-Anh Hoang-Vu, Lauro Lins
+
 Contact: tuananh [at] nyu.edu
 
 Usage
 =====
 
-To be added...
+In order to crawl from Twitter, you will need to obtain an API key.
+
+...
 
 Description
 ===========
