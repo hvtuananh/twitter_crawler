@@ -161,7 +161,7 @@ class Storage extends Thread {
                     proc.waitFor();  
                 }
                 {
-                    String arr = String.format("rm  %s", filename);  
+                    String arr = String.format("rm %s", filename);  
                     Process proc = Runtime.getRuntime().exec(arr);  
                     proc.waitFor();  
                 }   
