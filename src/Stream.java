@@ -213,7 +213,7 @@ public class Stream {
                 // status.
                 try {
                     String rawJSON = DataObjectFactory.getRawJSON(status);
-                    System.out.println(rawJSON);
+                    // System.out.println(rawJSON);
                     storage.store(rawJSON);
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
